@@ -1,0 +1,70 @@
+ul.sugerencias {
+    border: 1px solid #ccc;
+    max-height: 300px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    background-color: white;
+    width: 300px;
+    z-index: 1000;
+}
+
+ul.sugerencias li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+ul.sugerencias li:hover {
+    background-color: #f0f0f0;
+}
+
+.custom-sidebar {
+    background-color: #2c3e50 !important;
+    /* Fondo oscuro pero no tan intenso */
+    color: #ecf0f1 !important;
+    /* Texto claro para contraste */
+}
+
+.custom-sidebar .nav-link,
+.custom-sidebar .brand-link,
+.custom-sidebar .user-panel {
+    color: #d1d8e0 !important;
+    /* Texto gris claro, más suave que antes */
+}
+
+.custom-sidebar .nav-link:hover {
+    background-color: #3b4a59 !important;
+    /* Fondo un poco más claro al pasar el mouse */
+    color: #ffffff !important;
+    /* Texto blanco */
+}
+
+.custom-sidebar .nav-link.active {
+    background-color: #1abc9c !important;
+    /* Verde vibrante para el enlace activo */
+    color: #ffffff !important;
+    /* Texto blanco cuando está activo */
+}
+
+.custom-sidebar .brand-link {
+    font-weight: bold !important;
+    /* Aumentar el peso de la fuente para la marca */
+}
+
+.custom-sidebar .user-panel {
+    background-color: #34495e !important;
+    /* Fondo oscuro pero suave para la sección del usuario */
+    color: #ffffff !important;
+    /* Texto blanco */
+}
+.acciones-col {
+    width: 180px; /* Ajusta según necesidad */
+    text-align: center;
+    white-space: nowrap;
+}
+.sugerencias li.seleccionado {
+    background-color: #007bff;
+    color: white;
+}

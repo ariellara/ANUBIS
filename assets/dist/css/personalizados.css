@@ -1,0 +1,76 @@
+.btn-xs {
+    padding: 0.15rem 0.3rem;
+    font-size: 0.75rem;
+    line-height: 1.25;
+    border-radius: 0.2rem;
+}
+
+.mi-alerta-personalizada {
+    border: 3px solid #28a745;
+    border-radius: 12px;
+    background-color: #f8fdf8;
+    padding: 25px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.swal2-title {
+    color: #155724;
+    font-size: 1.4rem;
+}
+
+.swal2-html-container {
+    color: #155724;
+}
+
+#modalPDF .modal-content {
+    background-color: #f8f9fa;
+    border: 1px solid #d6e0e5;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(90, 110, 120, 0.08);
+}
+
+#modalPDF .modal-content {
+    background-color: #f9fbf8;
+    /* casi blanco con tinte verde oliva */
+    border: 1px solid #cddac5;
+    /* borde verde oliva apagado */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(100, 120, 100, 0.1);
+}
+
+#modalPDF .modal-header {
+    background-color: #a8bfa3;
+    /* verde oliva suave */
+    color: #ffffff;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom: 1px solid #cddac5;
+}
+
+#modalPDF .modal-title {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+#modalPDF .modal-header .close {
+    color: white;
+    opacity: 0.8;
+}
+
+#modalPDF .modal-body {
+    background-color: #ffffff;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    #modalPDF .modal-dialog {
+        max-width: 95%;
+        margin: 1rem auto;
+    }
+
+    #modalPDF iframe {
+        height: 70vh;
+    }
+}
