@@ -62,10 +62,9 @@ if (!empty($_SESSION['active'])) {
 
     <!-- Logo + título -->
     <div class="text-center mb-3">
-      <img src="assets/img/logo1.png" width="64" height="64" alt="Logo Gym" class="mb-2 rounded-circle shadow-sm">
+      <img src="assets/img/logo.jpg" width="64" height="64" alt="Zerion" class="mb-2 rounded-circle shadow-sm">
       <h1 class="h4 font-weight-bold text-primary">Zerion</h1>
       <p class="text-muted">Bienvenido</p>
-      
     </div>
 
     <!-- Card de login -->
