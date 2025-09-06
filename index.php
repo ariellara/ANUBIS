@@ -28,7 +28,7 @@ if (!empty($_SESSION['active'])) {
         header('Location: src/dashboard.php');
       } else {
         $alert = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        Contraseña incorrecta
+                        Datos incorrectos
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -46,7 +46,7 @@ if (!empty($_SESSION['active'])) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login | GymAccess</title>
+  <title>Login | Zerion</title>
   <link rel="icon" type="image/png" href="assets/img/OIP.png">
 
   <!-- Font Awesome -->
@@ -57,7 +57,8 @@ if (!empty($_SESSION['active'])) {
   <link rel="stylesheet" href="assets/dist/css/adminlte.min.css">
 </head>
 
-<body class="hold-transition login-page" style="background: linear-gradient(135deg, #f0f4f8, #ffffff);">
+<body class="hold-transition login-page" style="background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);">
+
   <div class="login-box">
 
     <!-- Logo + título -->
@@ -68,42 +69,49 @@ if (!empty($_SESSION['active'])) {
     </div>
 
     <!-- Card de login -->
-    <div class="card shadow-lg rounded">
-      <div class="card-body login-card-body">
-        <p class="login-box-msg">Ingrese sus credenciales</p>
+    <div class="card shadow-lg border-0 rounded-4"
+      style="backdrop-filter: blur(12px); background: rgba(255,255,255,0.85);">
+      <div class="card-body login-card-body p-4">
+
+        <!-- Título -->
+        <h5 class="text-center text-dark mb-4 fw-bold">Ingrese sus credenciales</h5>
 
         <form action="" method="post" autocomplete="off">
           <?php echo (isset($alert)) ? $alert : ''; ?>
 
           <!-- Email -->
           <div class="input-group mb-3">
-            <input type="email" class="form-control" name="correo" placeholder="Correo" required>
-            <div class="input-group-append">
-              <div class="input-group-text bg-white">
-                <span class="fas fa-envelope text-primary"></span>
-              </div>
-            </div>
+            <input type="email" class="form-control rounded-start" name="correo" placeholder="Correo" required>
+            <span class="input-group-text bg-white">
+              <i class="fas fa-envelope text-primary"></i>
+            </span>
           </div>
 
           <!-- Password -->
-          <div class="input-group mb-3">
-            <input type="password" class="form-control" name="pass" id="password" placeholder="Contraseña" required>
-            <div class="input-group-append">
-              <div class="input-group-text bg-white">
-                <span class="fas fa-eye text-primary" id="togglePassword" style="cursor:pointer;"></span>
-              </div>
-            </div>
+          <div class="input-group mb-4">
+            <input type="password" class="form-control rounded-start" name="pass" id="password" placeholder="Contraseña"
+              required>
+            <span class="input-group-text bg-white">
+              <i class="fas fa-eye text-primary" id="togglePassword" style="cursor:pointer;"></i>
+            </span>
           </div>
 
           <!-- Botón -->
-          <div class="row justify-content-center">
-            <div class="col-6">
-              <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
-            </div>
+          <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-primary btn-lg fw-semibold px-5">
+              <i class="fas fa-sign-in-alt me-2"></i> Ingresar
+            </button>
+          </div>
+
+          <!-- Opciones extras -->
+          <div class="mt-3 text-center">
+            <a href="#" class="small text-decoration-none text-primary">Desarrollado por Zerion
+              <?php print date("Y"); ?></a>
           </div>
         </form>
       </div>
     </div>
+
 
   </div>
   <!-- /.login-box -->

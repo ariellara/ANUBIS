@@ -5,7 +5,7 @@
 </div>
 <!-- Main Footer -->
 <footer class="main-footer">
-    <strong>Licenciado a Yudith Del Carmen Cadena&copy; <?php  print date("Y") ?> <a href="#"></a>.</strong>
+    <strong>Licencia a: &copy; <?php  print date("Y") ?> <a href="#"></a>.</strong>
     
     <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1

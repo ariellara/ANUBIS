@@ -11,7 +11,7 @@ if (empty($_SESSION['active'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GymAccess</title>
+    <title>Zerion</title>
 
     <head>
 
@@ -29,11 +29,9 @@ if (empty($_SESSION['active'])) {
     <!-- Theme style -->
     <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="../assets/dist/css/search.css">
+    <link rel="stylesheet" href="../assets/dist/css/pantallaCarga.css">
 
     <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <script src="../assets/js/negocio.js"></script>
-    <script src="../assets/js/bussines.js"></script>
-
     <script src="../assets/plugins/jquery/jquery.js"></script>
     <script src="../assets/plugins/jquery/jquery.min.js"></script>
     <script src="../assets/plugins/datatables/jquery.dataTables.js"></script>
@@ -68,13 +66,16 @@ if (empty($_SESSION['active'])) {
 
         <!-- Main Sidebar Container -->
 
-        <aside class="main-sidebar custom-sidebar elevation-4">
+        <aside class="main-sidebar sidebar-light elevation-4">
+
 
             <!-- Brand Logo -->
-            <a href="listaAsistencia.php" class="brand-link">
-                <img src="../assets/img/logo1.png" width="100" height="100" alt=""
+            <a href="#" class="brand-link">
+                <img src="../assets/img/logo.jpg" width="100" height="100" alt=""
                     class="brand-image img-circle elevation-6" style="opacity: 1">
-                <span class="brand-text font-weight-light">Gestión de Gimnasio</span>
+                <span class="brand-text" style="color:#6c757d; font-weight:300;">
+                    Gestión Data Doscar
+                </span>
             </a>
 
             <!-- Sidebar -->
@@ -99,238 +100,15 @@ if (empty($_SESSION['active'])) {
 
                         <li class="nav-item">
                             <a href="asistencia.php" class="nav-link">
-                                <i class="nav-icon fas fa-calendar"></i>
-                                <p>
-                                    Registrar Asistencia
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="listaAsistencia.php" class="nav-link">
                                 <i class="nav-icon fas fa-list"></i>
                                 <p>
-                                    Lista Asistencia
+                                    Ver Historial
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="informacionCliente.php" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>
-                                    Informacion Cliente
-                                </p>
 
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    Clientes
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 3) {
-                                    echo '<li class="nav-item">
-                                        <a href="clientes.php" class="nav-link">
-                                            <i class="nav-icon fas fa-id-badge"></i>
-                                            <p>Clientes</p>
-                                        </a>
-                                    </li>';
-                                } ?>
-                            </ul>
-
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-shopping-cart"></i>
-                                <p>
-                                    Ventas
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 3) {
-                                    echo '<li class="nav-item">
-                                        <a href="ventas.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Nueva Venta</p>
-                                        </a>
-                                    </li>';
-                                }
-                                if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) {
-                                    echo '<li class="nav-item">
-                                        <a href="cuentasPorCobrar.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Cuentas por cobrar </p>
-                                        </a>
-                                    </li>';
-                                } ?>
-                            </ul>
-
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-dollar-sign"></i>
-                                <p>
-                                    Egresos
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 3) {
-                                    echo '<li class="nav-item">
-                                        <a href="compras.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Compras</p>
-                                        </a>
-                                    </li>';
-                                }
-                                if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) {
-                                    echo '<li class="nav-item">
-                                        <a href="tipoGastos.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Tipos de Gastos</p>
-                                        </a>
-                                    </li>';
-                                }
-                                if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 3) {
-                                    echo '<li class="nav-item">
-                                        <a href="gastos.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Gastos</p>
-                                        </a>
-                                    </li>';
-                                }
-                                if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 3) {
-                                    echo '';
-                                } ?>
-                            </ul>
-
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tag"></i>
-                                <p>
-                                    Productos
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 3) {
-                                    echo '<li class="nav-item">
-                                        <a href="productos.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Nuevo Producto</p>
-                                        </a>
-                                    </li>';
-                                } ?>
-                            </ul>
-
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-credit-card"></i>
-                                <p>
-                                    Pagos
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 3) {
-                                    echo '<li class="nav-item">
-                                        <a href="pagos.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Pagos</p>
-                                        </a>
-                                    </li>';
-                                }
-                                if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) {
-                                    echo '<li class="nav-item">
-                                        <a href="cuentasPorCobrar.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Cuentas por Cobrar</p>
-                                        </a>
-                                    </li>';
-                                }
-                              
-                                ?>
-                            </ul>
-
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-table"></i>
-                                <p>
-                                    Informes
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 3) {
-                                    echo '<li class="nav-item">
-                                        <a href="egresosCompras.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Egresos Compras</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="egresosGastos.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Egresos Gastos</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="egresosTotales.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Egresos Totales</p>
-                                        </a>
-                                    </li><li class="nav-item">
-                                    <a href="ingresosPagos.php" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Ingresos Pagos</p>
-                                    </a>
-                                </li><li class="nav-item">
-                                <a href="ingresosVentas.php" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Ingresos Ventas</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                        <a href="ingresosTotales.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Ingresos Totales</p>
-                                        </a>
-                                    </li><li class="nav-item">
-                                    <a href="informeAsistencia.php" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Informe de Asistencias</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="cuadreCaja.php" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Cuadre Caja</p>
-                                    </a>
-                                </li>';
-                                } ?>
-                            </ul>
-
-                        </li>
-
-                        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) {
-                            echo '<li class="nav-item">
-                                <a href="proveedores.php" class="nav-link">
-                                    <i class="nav-icon fas fa-truck"></i>
-                                    <p>
-                                        Proveedores
-                                    </p>
-                                </a>
-                            </li>';
-                        }
+                        <!-- 
+                        <?php
                         if ($_SESSION['rol'] == 1) {
                             echo '
                             <li class="nav-item">
@@ -348,21 +126,10 @@ if (empty($_SESSION['active'])) {
                                             <p>Usuarios</p>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="config.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Configuración</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                    <a href="tarifas.php" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Tarifas</p>
-                                    </a>
-                                </li>
+                                   
                                 </ul>
                             </li>';
-                        } ?>
+                        } ?> -->
 
 
 
