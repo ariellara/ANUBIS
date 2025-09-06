@@ -33,6 +33,13 @@ try {
             $respuesta = $cargarDoscarManager->sincronizarDatos($data);
             $respuesta->setUrl("");
             break;
+         case "CARGARDATOSNUBE":
+            if (!isset($data)) {
+                throw new Exception("Falta los datos");
+            }
+            $respuesta = $cargarDoscarManager->cargarDatosNube($data);
+            $respuesta->setUrl("");
+            break;   
 
         default:
             $respuesta->setSuccess(false);
