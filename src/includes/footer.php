@@ -1,3 +1,6 @@
+<?php
+include("datos.php");
+?>
 </div>
 <!-- /.container-fluid -->
 </div>
@@ -5,7 +8,7 @@
 </div>
 <!-- Main Footer -->
 <footer class="main-footer">
-    <strong>Licencia a: &copy; <?php  print date("Y") ?> <a href="#"></a>.</strong>
+    <strong>Licencia a: <?php print $CLIENTE?> &copy; <?php  print date("Y") ?> <a href="#"></a>.</strong>
     
     <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1

@@ -1,6 +1,7 @@
 <?php
 date_default_timezone_set('America/Bogota');
 include("funcionesComunes.php");
+include("datos.php");
 if (empty($_SESSION['active'])) {
     header('Location: ../');
 }
@@ -74,7 +75,7 @@ if (empty($_SESSION['active'])) {
                 <img src="../assets/img/logo.jpg" width="100" height="100" alt=""
                     class="brand-image img-circle elevation-6" style="opacity: 1">
                 <span class="brand-text" style="color:#6c757d; font-weight:300;">
-                    Gestión Data Doscar
+                    <?php echo $NOMBRENEGOCIO; ?>
                 </span>
             </a>
 
