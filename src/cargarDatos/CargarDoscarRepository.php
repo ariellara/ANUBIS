@@ -1,5 +1,6 @@
 <?php
-include "../../conexion/conexion.php";
+include __DIR__ . "/../../conexion/conexion.php";
+
 
 class CargarDoscarRepository
 {

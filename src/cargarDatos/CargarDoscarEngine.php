@@ -2,10 +2,11 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once 'CargarDoscarRepository.php';
-require_once '../comunes/Respuesta.php';
-require_once '../log/LoggerEvento.php';
-require_once '../../conexion/conexion.php';
+require_once __DIR__ . '/CargarDoscarRepository.php';
+require_once __DIR__ . '/../comunes/Respuesta.php';
+require_once __DIR__ . '/../log/LoggerEvento.php';
+require_once __DIR__ . '/../../conexion/conexion.php';
+
 
 class CargarDoscarEngine
 {
