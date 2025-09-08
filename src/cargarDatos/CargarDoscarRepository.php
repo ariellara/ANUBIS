@@ -35,6 +35,18 @@ class CargarDoscarRepository
         return true;
     }
 
+    public function obtenerDatosDoscar($conn_access, $entidad)
+    {
+        $sql = "SELECT * FROM $entidad";
+        $datos = [];
+
+        $rs_access = odbc_exec($conn_access, $sql);
+        while ($fila = odbc_fetch_object($rs_access)) {
+            $datos[] = (array)$fila;
+        }
+        return $datos ;
+    }
+
 
 
 }

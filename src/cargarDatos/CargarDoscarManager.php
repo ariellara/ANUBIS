@@ -15,11 +15,13 @@ class CargarDoscarManager
     private $repositorio;
     private LoggerEvento $logger;
     private mysqli $conexion;
+    private CargarDoscarEngine $doscarEngine;
     public function __construct(mysqli $conexion)
     {
         $this->repositorio = new CargarDoscarRepository();
         $this->logger = new LoggerEvento($conexion);
         $this->conexion = $conexion; 
+        $this->doscarEngine = new CargarDoscarEngine($conexion);
     }
 
     public function sincronizarDatos($datos)
@@ -62,8 +64,19 @@ class CargarDoscarManager
     
     private function traerDatosDoscar():Respuesta {
         $respuesta = new Respuesta();
+      
         try
         {
+
+            $obtenerArticulosDoscar = $this->doscarEngine->obtenerArticulosDoscar();
+            if (!$obtenerArticulosDoscar->getSuccess())
+            {
+                $respuesta->setSuccess(false);
+                $respuesta->setMensaje("Error al obtener datos desde Doscar: " . $obtenerArticulosDoscar->getMensaje());
+                $respuesta->setDatos([]);
+                return $respuesta;
+            }
+            $respuesta->setDatos($obtenerArticulosDoscar->getDatos());
             $respuesta->setSuccess(true);
             $respuesta->setMensaje("Datos obtenidos correctamente desde Doscar.");
             
@@ -80,10 +93,9 @@ class CargarDoscarManager
     public function cargarDatosNube($datos)
     {
         $respuesta = new Respuesta();
-        $doscarEngine = new CargarDoscarEngine($this->conexion);
 
         try {
-            $datosEstructura = $doscarEngine->estructurarDatosEnviar();
+            $datosEstructura = $this->doscarEngine->estructurarDatosEnviar();
 
 
             if ($datosEstructura->getSuccess()) {
