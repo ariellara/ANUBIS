@@ -6,6 +6,8 @@ require_once __DIR__ . '/CargarDoscarRepository.php';
 require_once __DIR__ . '/../comunes/Respuesta.php';
 require_once __DIR__ . '/../log/LoggerEvento.php';
 require_once __DIR__ . '/../../conexion/conexion.php';
+include_once __DIR__ . '/EstructuraDatosDTO.php';
+
 
 
 class CargarDoscarEngine
@@ -21,16 +23,47 @@ class CargarDoscarEngine
     public function obtenerArticulosDoscar(): Respuesta
     {
         $respuesta = new Respuesta();
-        $estructuraDatos = [];
+        $datosEstructura = new EstructuraDatosDTO();
+
         try {
             if ($conn_access = odbc_connect("DATADOSCAR", "", "")) {
-                $estructuraDatos["articulos"] = $this->repositorio->obtenerDatosDoscar($conn_access, "Articulos");
-                $estructuraDatos["articulosCompuestos"] = $this->repositorio->obtenerDatosDoscar($conn_access, "[Articulos Compuestos]");
 
+                $datosEstructura->articulos = $this->repositorio->obtenerDatosDoscar($conn_access, "Articulos");
+                $datosEstructura->articulosCompuestos = $this->repositorio->obtenerDatosDoscar($conn_access, "[Articulos Compuestos]");
+                $datosEstructura->cabeceraAlbaranesCompra = $this->repositorio->obtenerDatosDoscar($conn_access, "[Cabecera Albaranes de Compra]");
+                $datosEstructura->cabeceraFacturasCompra = $this->repositorio->obtenerDatosDoscar($conn_access, "[Cabecera Facturas de Compra]");
+                $datosEstructura->cabeceraFacturaVenta = $this->repositorio->obtenerDatosDoscar($conn_access, "[Cabecera Facturas de Venta]");
+                $datosEstructura->cabeceraTicketsVenta = $this->repositorio->obtenerDatosDoscar($conn_access, "[Cabecera Tickets de Venta]");
+                $datosEstructura->cajas = $this->repositorio->obtenerDatosDoscar($conn_access, "Cajas");
+                $datosEstructura->camareros = $this->repositorio->obtenerDatosDoscar($conn_access, "Camareros");
+                $datosEstructura->clientes = $this->repositorio->obtenerDatosDoscar($conn_access, "Clientes");
+                $datosEstructura->datosEmpresa = $this->repositorio->obtenerDatosDoscar($conn_access, "[Datos Empresa]");
+                $datosEstructura->familias = $this->repositorio->obtenerDatosDoscar($conn_access, "Familias");
+                $datosEstructura->formasPago = $this->repositorio->obtenerDatosDoscar($conn_access, "[Formas de Pago]");
+                $datosEstructura->gastos = $this->repositorio->obtenerDatosDoscar($conn_access, "Gastos");
+                $datosEstructura->historicoCierresCaja = $this->repositorio->obtenerDatosDoscar($conn_access, "[Historico Cierres Caja]");
+                $datosEstructura->ingresos = $this->repositorio->obtenerDatosDoscar($conn_access, "Ingresos");
+                $datosEstructura->lineasAlbaranesCompra = $this->repositorio->obtenerDatosDoscar($conn_access, "[Lineas Albaranes de Compra]");
+                $datosEstructura->lineasFacturasCompra = $this->repositorio->obtenerDatosDoscar($conn_access, "[Lineas Facturas de Compra]");
+                $datosEstructura->lineasFacturaVenta = $this->repositorio->obtenerDatosDoscar($conn_access, "[Lineas Facturas de Venta]");
+                $datosEstructura->lineasTicketsVenta = $this->repositorio->obtenerDatosDoscar($conn_access, "[Lineas Tickets de Venta]");
+                $datosEstructura->logControlModificaciones = $this->repositorio->obtenerDatosDoscar($conn_access, "LogControlModificaciones");
+                $datosEstructura->logOperaciones = $this->repositorio->obtenerDatosDoscar($conn_access, "LogOperaciones");
+                $datosEstructura->logUsuarios = $this->repositorio->obtenerDatosDoscar($conn_access, "Logusuarios");
+                $datosEstructura->mesas = $this->repositorio->obtenerDatosDoscar($conn_access, "Mesas");
+                $datosEstructura->motivoSalidas = $this->repositorio->obtenerDatosDoscar($conn_access, "MotivoSalidas");
+                $datosEstructura->pagosACamareros = $this->repositorio->obtenerDatosDoscar($conn_access, "[Pagos a Camareros]");
+                $datosEstructura->pagosAProveedores = $this->repositorio->obtenerDatosDoscar($conn_access, "[Pagos a Proveedores]");
+                $datosEstructura->pagosARepresentantes = $this->repositorio->obtenerDatosDoscar($conn_access, "[Pagos a Representantes]");
+                $datosEstructura->proveedores = $this->repositorio->obtenerDatosDoscar($conn_access, "Proveedores");
+                $datosEstructura->recibosDeClientes = $this->repositorio->obtenerDatosDoscar($conn_access, "[Recibos de Clientes]");
+                $datosEstructura->representantes = $this->repositorio->obtenerDatosDoscar($conn_access, "Representantes");
+                $datosEstructura->tiposDeImpuestos = $this->repositorio->obtenerDatosDoscar($conn_access, "[Tipos de Impuestos]");
 
-                $respuesta->setDatos($estructuraDatos);
+                $respuesta->setDatos($datosEstructura);
                 $respuesta->setSuccess(true);
                 $respuesta->setMensaje("Datos obtenidos correctamente desde Doscar.");
+
                 odbc_close($conn_access);
             } else {
                 $respuesta->setSuccess(false);
@@ -71,6 +104,50 @@ class CargarDoscarEngine
 
         return $respuesta;
     }
+
+    public static function normalizaDatos($mixed)
+    {
+        if (is_array($mixed)) {
+            $normalized = [];
+            foreach ($mixed as $key => $value) {
+                $newKey = mb_convert_encoding($key, 'UTF-8', 'ISO-8859-1');
+                $normalized[$newKey] = self::normalizaDatos($value);
+            }
+            return $normalized;
+        } elseif (is_object($mixed)) {
+            foreach ($mixed as $key => $value) {
+                $newKey = mb_convert_encoding($key, 'UTF-8', 'ISO-8859-1');
+                unset($mixed->$key);
+                $mixed->$newKey = self::normalizaDatos($value);
+            }
+        } elseif (is_string($mixed)) {
+            $mixed = mb_convert_encoding($mixed, 'UTF-8', 'ISO-8859-1, Windows-1252');
+        }
+        return $mixed;
+    }
+
+
+    public function debugJsonEncoding($dto): void
+    {
+        foreach (get_object_vars($dto) as $prop => $value) {
+            $encoded = json_encode($value, JSON_UNESCAPED_UNICODE);
+    
+            if ($encoded === false) {
+                $error = json_last_error_msg();
+                if (isset($this->logger)) {
+                    $this->logger->guardar(
+                        "Error al json_encode en tabla '{$prop}': {$error}",
+                        "DebugJson",
+                        "sistema"
+                    );
+                }
+            }
+        }
+    }
+    
+
+
+
 
 
 

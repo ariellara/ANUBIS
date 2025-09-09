@@ -37,6 +37,9 @@ class CargarDoscarManager
                 $this->logger->guardar("Error al obtener datos desde doscar: " . $datosDoscar->getMensaje(), "Dependencia", "sistema");
                 return $respuesta;
             }
+            $normalizarDatos = $this->doscarEngine->normalizaDatos($datosDoscar->getDatos());
+            $this->doscarEngine->debugJsonEncoding($normalizarDatos);
+            $datosEnviarBaseCludd = json_encode($normalizarDatos, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             $resultado = $this->repositorio->sincronizarDatos($datosDoscar->getDatos());
 
             if ($resultado) {
@@ -68,15 +71,15 @@ class CargarDoscarManager
         try
         {
 
-            $obtenerArticulosDoscar = $this->doscarEngine->obtenerArticulosDoscar();
-            if (!$obtenerArticulosDoscar->getSuccess())
+            $obtenerDatosDoscar = $this->doscarEngine->obtenerArticulosDoscar();
+            if (!$obtenerDatosDoscar->getSuccess())
             {
                 $respuesta->setSuccess(false);
-                $respuesta->setMensaje("Error al obtener datos desde Doscar: " . $obtenerArticulosDoscar->getMensaje());
+                $respuesta->setMensaje("Error al obtener datos desde Doscar: " . $obtenerDatosDoscar->getMensaje());
                 $respuesta->setDatos([]);
                 return $respuesta;
             }
-            $respuesta->setDatos($obtenerArticulosDoscar->getDatos());
+            $respuesta->setDatos($obtenerDatosDoscar->getDatos());
             $respuesta->setSuccess(true);
             $respuesta->setMensaje("Datos obtenidos correctamente desde Doscar.");
             
