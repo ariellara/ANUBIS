@@ -54,11 +54,11 @@ class CargarDoscarManager
 
         } catch (Exception $e) {
             $respuesta->setSuccess(false);
-            $respuesta->setMensaje("Error al registrar la dependencia: " . $e->getMessage());
+            $respuesta->setMensaje("Error procesando doscar: " . $e->getMessage());
             $respuesta->setDatos([]);
 
             if (isset($this->logger)) {
-                $this->logger->guardar("Error al guardar dependencia: " . $e->getMessage(), "Dependencia", "sistema");
+                $this->logger->guardar("Error Procesando doscar: " . $e->getMessage(), "Dependencia", "sistema");
             }
         }
 
@@ -70,7 +70,6 @@ class CargarDoscarManager
       
         try
         {
-
             $obtenerDatosDoscar = $this->doscarEngine->obtenerArticulosDoscar();
             if (!$obtenerDatosDoscar->getSuccess())
             {
