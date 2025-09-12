@@ -16,7 +16,7 @@ function enviarController(datos, ruta) {
             if (data.success) {
                 $('#pantallaCarga').fadeOut(200);
                 let datosNobe = { tipo: "CARGARDATOSNUBE" };
-                enviarDatosNube(datosNobe, '../src/cargarDatos/CargarDoscarController.php');
+               // enviarDatosNube(datosNobe, '../src/cargarDatos/CargarDoscarController.php');
                 Swal.fire({
                     icon: 'success',
                     title: 'Éxito',
@@ -26,6 +26,7 @@ function enviarController(datos, ruta) {
                 });
 
             } else {
+                $('#pantallaCarga').fadeOut(200);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -77,6 +78,7 @@ function enviarDatosNube(datos, ruta) {
                 });
 
             } else {
+                $('#pantallaCarga').fadeOut(200);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',

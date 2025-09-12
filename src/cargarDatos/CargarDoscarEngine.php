@@ -144,6 +144,69 @@ class CargarDoscarEngine
             }
         }
     }
+    public function enviarDatosNube($datos): Respuesta
+    {
+        $respuesta = new Respuesta();
+        try {
+            $url = "http://localhost/ApiDoscarSync/sincronizar.php";
+            $apiKey = "4f7d3a5c09abf0de7c84b5f0c9a1f54b3a6d9e15c2fa11e8f9c32d8c927a1d44"; 
+    
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    "X-API-KEY: $apiKey" 
+                ],
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode($datos, JSON_UNESCAPED_UNICODE),
+                CURLOPT_CONNECTTIMEOUT => 10,
+                CURLOPT_TIMEOUT => 30,
+            ]);
+    
+            $result = curl_exec($ch);
+    
+            if (curl_errno($ch)) {
+                $error = "Error en la solicitud cURL: " . curl_error($ch);
+                $respuesta->setSuccess(false);
+                $respuesta->setMensaje($error);
+                $respuesta->setDatos([]);
+                $this->logger?->guardar($error, "EnvioDatosNube", "sistema");
+            } else {
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                if ($httpCode >= 200 && $httpCode < 300) {
+                    $decoded = json_decode($result, true);
+                    if (json_last_error() === JSON_ERROR_NONE) {
+                        $respuesta->setSuccess(true);
+                        $respuesta->setMensaje($decoded['mensaje'] ?? 'Datos enviados correctamente');
+                        $respuesta->setDatos($decoded);
+                        $this->logger?->guardar("Datos enviados correctamente a la nube.", "EnvioDatosNube", "sistema");
+                    } else {
+                        $respuesta->setSuccess(false);
+                        $respuesta->setMensaje($decoded['mensaje'] ?? 'Error al decodificar la respuesta JSON');
+                        $respuesta->setDatos([]);
+                    }
+                } else {
+                    $decoded = json_decode($result, true);
+                    $error = "Error en la respuesta del servidor: Código HTTP " . $httpCode . " - " . ($decoded['mensaje'] ?? 'Respuesta no exitosa');
+                    $respuesta->setSuccess(false);
+                    $respuesta->setMensaje($error);
+                    $respuesta->setDatos([]);
+                    $this->logger?->guardar($error, "EnvioDatosNube", "sistema");
+                }
+            }
+            curl_close($ch);
+        } catch (Exception $e) {
+            $error = "Excepción al enviar datos a la nube: " . $e->getMessage();
+            $respuesta->setSuccess(false);
+            $respuesta->setMensaje($error);
+            $respuesta->setDatos([]);
+            $this->logger?->guardar($error, "EnvioDatosNube", "sistema");
+        }
+        return $respuesta;
+    }
+    
+    
     
 
 

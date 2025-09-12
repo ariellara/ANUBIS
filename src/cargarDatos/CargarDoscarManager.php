@@ -40,15 +40,15 @@ class CargarDoscarManager
             $normalizarDatos = $this->doscarEngine->normalizaDatos($datosDoscar->getDatos());
             $this->doscarEngine->debugJsonEncoding($normalizarDatos);
             $datosEnviarBaseCludd = json_encode($normalizarDatos, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            $resultado = $this->repositorio->sincronizarDatos($datosDoscar->getDatos());
-
-            if ($resultado) {
+            $enviarCloudDoscar = $this->doscarEngine->enviarDatosNube($datosEnviarBaseCludd);
+            
+            if ($enviarCloudDoscar->getSuccess()) {
                 $respuesta->setSuccess(true);
-                $respuesta->setMensaje("Datos desde Doscar Guardados Exitosamente.");
+                $respuesta->setMensaje($enviarCloudDoscar->getMensaje());
                 $respuesta->setDatos([]);
             } else {
                 $respuesta->setSuccess(false);
-                $respuesta->setMensaje("No se pudo registrar la dependencia.");
+                $respuesta->setMensaje($enviarCloudDoscar->getMensaje());
                 $respuesta->setDatos([]);
             }
 
