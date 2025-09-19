@@ -12,29 +12,6 @@ class CargarDoscarRepository
         $this->conexion = $conexion;
     }
 
-    public function guardarDependencia($datos)
-    {
-        $codigo = $datos['codigo'] ?? '';
-        $nombre = $datos['nombre'] ?? '';
-        $descripcion = $datos['descripcion'] ?? '';
-
-        $stmt = $this->conexion->prepare("INSERT INTO t_dependencias (codigo, nombre, descripcion) VALUES (?, ?, ?)");
-
-        if (!$stmt) {
-            return false;
-        }
-
-        $stmt->bind_param("sss", $codigo, $nombre, $descripcion);
-        $resultado = $stmt->execute();
-        $stmt->close();
-
-        return $resultado;
-    }
-    public function sincronizarDatos($datos)
-    {
-        return true;
-    }
-
     public function obtenerDatosDoscar($conn_access, $entidad)
     {
         $sql = "SELECT * FROM $entidad";
@@ -45,6 +22,17 @@ class CargarDoscarRepository
             $datos[] = (array)$fila;
         }
         return $datos ;
+    }
+
+    public function obtenerApiKey()
+    {
+        $sql = "SELECT api_key FROM api_key_local WHERE id = 1";
+        $resultado = $this->conexion->query($sql);
+        if ($resultado && $resultado->num_rows > 0) {
+            $fila = $resultado->fetch_assoc();
+            return $fila['api_key'];
+        }
+        return null;
     }
 
 

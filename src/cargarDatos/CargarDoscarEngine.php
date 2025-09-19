@@ -149,7 +149,7 @@ class CargarDoscarEngine
         $respuesta = new Respuesta();
         try {
             $url = "http://localhost/ApiDoscarSync/sincronizar.php";
-            $apiKey = "4f7d3a5c09abf0de7c84b5f0c9a1f54b3a6d9e15c2fa11e8f9c32d8c927a1d44"; 
+            $apiKey = $this->repositorio->obtenerApiKey();
     
             $ch = curl_init($url);
             curl_setopt_array($ch, [
