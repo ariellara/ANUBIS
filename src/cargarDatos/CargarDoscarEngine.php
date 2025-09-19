@@ -1,4 +1,11 @@
 <?php
+/*
+ * Clase CargarDoscarEngine
+ * Maneja la lógica para cargar y enviar datos desde Doscar a la nube.
+ * 
+ * Autor: Ariel Lara
+ * Fecha: 2025-09-19
+ */
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

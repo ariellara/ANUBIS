@@ -1,4 +1,9 @@
 <?php
+/*
+    * Autor: Daniel Rodriguez
+    * Fecha: 2025-09-07
+    * Descripcion: Clase para manejar la carga de datos desde Doscar
+    */
 include __DIR__ . "/../../conexion/conexion.php";
 
 
