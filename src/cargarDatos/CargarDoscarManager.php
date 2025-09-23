@@ -20,7 +20,7 @@ class CargarDoscarManager
     {
         $this->repositorio = new CargarDoscarRepository();
         $this->logger = new LoggerEvento($conexion);
-        $this->conexion = $conexion; 
+        $this->conexion = $conexion;
         $this->doscarEngine = new CargarDoscarEngine($conexion);
     }
 
@@ -42,12 +42,12 @@ class CargarDoscarManager
             $this->doscarEngine->debugJsonEncoding($normalizarDatos);
             $datosEnviarBaseCludd = json_encode($normalizarDatos, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             $enviarCloudDoscar = $this->doscarEngine->enviarDatosNube($datosEnviarBaseCludd, $urlApi->getDatos());
-            
+
             if ($enviarCloudDoscar->getSuccess()) {
                 $respuesta->setSuccess(true);
                 $respuesta->setMensaje($enviarCloudDoscar->getMensaje());
                 $respuesta->setDatos([]);
-                $this->repositorio->actualizarFechaActualizacion();
+                $this->actualizarFechaActualizacion();
             } else {
                 $respuesta->setSuccess(false);
                 $respuesta->setMensaje($enviarCloudDoscar->getMensaje());
@@ -66,26 +66,39 @@ class CargarDoscarManager
 
         return $respuesta;
     }
+    private function actualizarFechaActualizacion()
+    {
+        try {
+            $actualizarFecha = $this->repositorio->actualizarFechaActualizacion();
+            if ($actualizarFecha) {
+                $this->logger->guardar("Fecha de actualización en la base de datos actualizada correctamente.", "ActualizarFechaActualizacion", "sistema");
+
+            } else {
+                $this->logger->guardar("Error al actualizar la fecha de actualización en la base de datos.", "ActualizarFechaActualizacion", "sistema");
+
+            }
+
+        } catch (Exception $e) {
+            $this->logger->guardar("Error al actualizar la fecha de actualización: " . $e->getMessage(), "ActualizarFechaActualizacion", "sistema");
+           
+        }
+    }
 
     private function obtenerUrlApi(): Respuesta
     {
         $respuesta = new Respuesta();
-        try
-        {
+        try {
             $urlApi = $this->repositorio->obtenerUrlApi();
             $respuesta->setSuccess(true);
             $respuesta->setMensaje("URL de la API obtenida correctamente.");
             $respuesta->setDatos($urlApi);
-            if (empty($urlApi))
-            {
+            if (empty($urlApi)) {
                 $this->logger->guardar("Error al obtener la URL de la API desde la base de datos.", "ObtenerUrlApi", "sistema");
                 $respuesta->setSuccess(false);
                 $respuesta->setMensaje("Error al obtener la URL de la API desde la base de datos.");
                 $respuesta->setDatos([]);
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $this->logger->guardar("Error al obtener la URL de la API: " . $e->getMessage(), "ObtenerUrlApi", "sistema");
             $respuesta->setSuccess(false);
             $respuesta->setMensaje("Error al obtener la URL de la API: " . $e->getMessage());
@@ -93,14 +106,13 @@ class CargarDoscarManager
         }
         return $respuesta;
     }
-    
-    private function traerDatosDoscar():Respuesta {
+
+    private function traerDatosDoscar(): Respuesta
+    {
         $respuesta = new Respuesta();
-        try
-        {
+        try {
             $obtenerDatosDoscar = $this->doscarEngine->obtenerArticulosDoscar();
-            if (!$obtenerDatosDoscar->getSuccess())
-            {
+            if (!$obtenerDatosDoscar->getSuccess()) {
                 $respuesta->setSuccess(false);
                 $respuesta->setMensaje("Error al obtener datos desde Doscar: " . $obtenerDatosDoscar->getMensaje());
                 $respuesta->setDatos([]);
@@ -109,10 +121,8 @@ class CargarDoscarManager
             $respuesta->setDatos($obtenerDatosDoscar->getDatos());
             $respuesta->setSuccess(true);
             $respuesta->setMensaje("Datos obtenidos correctamente desde Doscar.");
-            
-        }
-        catch (Exception $e)
-        {
+
+        } catch (Exception $e) {
             $respuesta->setSuccess(false);
             $respuesta->setMensaje("Error al obtener los datos desde Doscar: " . $e->getMessage());
             $respuesta->setDatos([]);
