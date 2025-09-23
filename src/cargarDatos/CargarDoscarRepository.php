@@ -273,7 +273,7 @@ class CargarDoscarRepository
         $sql = "UPDATE api_key_local SET fechaCargue = '$fecha_actual' WHERE id = 1";
         return $this->conexion->query($sql);
     }
-    public function obtenerUrlApi()
+    public function obtenerUrlApi():string
     {
         $sql = "SELECT api_url FROM api_key_local WHERE id = 1";
         $resultado = $this->conexion->query($sql);
@@ -281,7 +281,7 @@ class CargarDoscarRepository
             $fila = $resultado->fetch_assoc();
             return $fila['api_url'];
         }
-        return null;
+        return "";
     }
 
 

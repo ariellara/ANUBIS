@@ -100,8 +100,6 @@ class CargarDoscarEngine
         return $respuesta;
 
     }
-
-
     public function estructurarDatosEnviar(): Respuesta
     {
         $respuesta = new Respuesta();
