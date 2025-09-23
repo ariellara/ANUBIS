@@ -29,6 +29,7 @@ class CargarDoscarManager
         $respuesta = new Respuesta();
 
         try {
+            $urlApi = $this->obtenerUrlApi();
             $datosDoscar = $this->traerDatosDoscar();
             if (!$datosDoscar->getSuccess()) {
                 $respuesta->setSuccess(false);
@@ -40,7 +41,7 @@ class CargarDoscarManager
             $normalizarDatos = $this->doscarEngine->normalizaDatos($datosDoscar->getDatos());
             $this->doscarEngine->debugJsonEncoding($normalizarDatos);
             $datosEnviarBaseCludd = json_encode($normalizarDatos, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            $enviarCloudDoscar = $this->doscarEngine->enviarDatosNube($datosEnviarBaseCludd);
+            $enviarCloudDoscar = $this->doscarEngine->enviarDatosNube($datosEnviarBaseCludd, $urlApi->getDatos());
             
             if ($enviarCloudDoscar->getSuccess()) {
                 $respuesta->setSuccess(true);
@@ -65,10 +66,36 @@ class CargarDoscarManager
 
         return $respuesta;
     }
+
+    private function obtenerUrlApi(): Respuesta
+    {
+        $respuesta = new Respuesta();
+        try
+        {
+            $urlApi = $this->repositorio->obtenerUrlApi();
+            $respuesta->setSuccess(true);
+            $respuesta->setMensaje("URL de la API obtenida correctamente.");
+            $respuesta->setDatos($urlApi);
+            if (empty($urlApi))
+            {
+                $this->logger->guardar("Error al obtener la URL de la API desde la base de datos.", "ObtenerUrlApi", "sistema");
+                $respuesta->setSuccess(false);
+                $respuesta->setMensaje("Error al obtener la URL de la API desde la base de datos.");
+                $respuesta->setDatos([]);
+            }
+        }
+        catch (Exception $e)
+        {
+            $this->logger->guardar("Error al obtener la URL de la API: " . $e->getMessage(), "ObtenerUrlApi", "sistema");
+            $respuesta->setSuccess(false);
+            $respuesta->setMensaje("Error al obtener la URL de la API: " . $e->getMessage());
+            $respuesta->setDatos([]);
+        }
+        return $respuesta;
+    }
     
     private function traerDatosDoscar():Respuesta {
         $respuesta = new Respuesta();
-      
         try
         {
             $obtenerDatosDoscar = $this->doscarEngine->obtenerArticulosDoscar();

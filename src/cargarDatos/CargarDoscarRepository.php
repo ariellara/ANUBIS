@@ -253,7 +253,7 @@ class CargarDoscarRepository
             $fila = $resultado->fetch_assoc();
             return $fila['api_key'];
         }
-        return null;
+        return "";
     }
 
     public function obtenerFechaControl()
@@ -272,6 +272,16 @@ class CargarDoscarRepository
         $fecha_actual = date("Y-m-d ");
         $sql = "UPDATE api_key_local SET fechaCargue = '$fecha_actual' WHERE id = 1";
         return $this->conexion->query($sql);
+    }
+    public function obtenerUrlApi()
+    {
+        $sql = "SELECT api_url FROM api_key_local WHERE id = 1";
+        $resultado = $this->conexion->query($sql);
+        if ($resultado && $resultado->num_rows > 0) {
+            $fila = $resultado->fetch_assoc();
+            return $fila['api_url'];
+        }
+        return null;
     }
 
 

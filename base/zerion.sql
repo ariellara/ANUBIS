@@ -25,12 +25,13 @@ CREATE TABLE IF NOT EXISTS `api_key_local` (
   `api_key` varchar(128) NOT NULL,
   `activo` tinyint(1) DEFAULT '1',
   `creado_en` datetime DEFAULT CURRENT_TIMESTAMP,
+  `fechaCargue` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla zerion.api_key_local: ~0 rows (aproximadamente)
-INSERT INTO `api_key_local` (`id`, `api_key`, `activo`, `creado_en`) VALUES
-	(1, '4f7d3a5c09abf0de7c84b5f0c9a1f54b3a6d9e15c2fa11e8f9c32d8c927a1d44', 1, '2025-09-19 17:37:30');
+-- Volcando datos para la tabla zerion.api_key_local: ~1 rows (aproximadamente)
+INSERT INTO `api_key_local` (`id`, `api_key`, `activo`, `creado_en`, `fechaCargue`) VALUES
+	(1, '4f7d3a5c09abf0de7c84b5f0c9a1f54b3a6d9e15c2fa11e8f9c32d8c927a1d44', 1, '2025-09-19 17:37:30', '2025-09-22');
 
 -- Volcando estructura para tabla zerion.log_eventos
 CREATE TABLE IF NOT EXISTS `log_eventos` (
@@ -41,9 +42,9 @@ CREATE TABLE IF NOT EXISTS `log_eventos` (
   `modulo` varchar(100) NOT NULL,
   `usuario` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=289 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla zerion.log_eventos: ~95 rows (aproximadamente)
+-- Volcando datos para la tabla zerion.log_eventos: ~149 rows (aproximadamente)
 INSERT INTO `log_eventos` (`id`, `fecha`, `ip`, `evento`, `modulo`, `usuario`) VALUES
 	(162, '2025-09-07 19:43:09', '0.0.0.0', 'Sincronización exitosa en cronProgramado', 'CargarDatos', 'sistema'),
 	(163, '2025-09-07 19:56:14', '0.0.0.0', 'Sincronización exitosa en cronProgramado', 'CargarDatos', 'sistema'),
@@ -171,7 +172,29 @@ INSERT INTO `log_eventos` (`id`, `fecha`, `ip`, `evento`, `modulo`, `usuario`) V
 	(285, '2025-09-19 17:44:24', '::1', 'Excepción al enviar datos a la nube: Unknown column \'apy_key\' in \'field list\'', 'EnvioDatosNube', 'sistema'),
 	(286, '2025-09-19 17:46:00', '::1', 'Error en la respuesta del servidor: Código HTTP 401 - Acceso no autorizado', 'EnvioDatosNube', 'sistema'),
 	(287, '2025-09-19 17:46:20', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
-	(288, '2025-09-19 18:02:09', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema');
+	(288, '2025-09-19 18:02:09', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(289, '2025-09-19 18:18:37', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(290, '2025-09-19 18:24:05', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(291, '2025-09-21 08:10:45', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(292, '2025-09-21 08:16:06', '0.0.0.0', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(293, '2025-09-21 08:16:06', '0.0.0.0', 'Sincronización exitosa en cronProgramado', 'CargarDatos:Sincronización completada exitosamente.', 'sistema'),
+	(294, '2025-09-21 08:19:11', '0.0.0.0', 'Error en la solicitud cURL: Operation timed out after 30008 milliseconds with 0 bytes received', 'EnvioDatosNube', 'sistema'),
+	(295, '2025-09-21 08:19:11', '0.0.0.0', 'Error en cronProgramado: Data too long for column \'modulo\' at row 1', 'CargarDatos', 'sistema'),
+	(296, '2025-09-21 08:25:31', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(297, '2025-09-22 18:58:06', '::1', 'Error al obtener datos desde doscar: Error al obtener los datos desde Doscar: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'WHERE api_key_local id = 1\' at line 1', 'Dependencia', 'sistema'),
+	(298, '2025-09-22 20:03:42', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(299, '2025-09-22 20:05:46', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(300, '2025-09-22 20:06:52', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(301, '2025-09-22 20:07:29', '::1', 'Error en la solicitud cURL: Operation timed out after 30004 milliseconds with 0 bytes received', 'EnvioDatosNube', 'sistema'),
+	(302, '2025-09-22 20:09:18', '::1', 'Error en la solicitud cURL: Operation timed out after 30003 milliseconds with 0 bytes received', 'EnvioDatosNube', 'sistema'),
+	(303, '2025-09-22 20:10:36', '::1', 'Error en la solicitud cURL: Operation timed out after 30011 milliseconds with 0 bytes received', 'EnvioDatosNube', 'sistema'),
+	(304, '2025-09-22 20:11:21', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(305, '2025-09-22 20:13:23', '::1', 'Error en la solicitud cURL: Operation timed out after 30008 milliseconds with 0 bytes received', 'EnvioDatosNube', 'sistema'),
+	(306, '2025-09-22 20:17:07', '::1', 'Error en la solicitud cURL: Operation timed out after 30012 milliseconds with 0 bytes received', 'EnvioDatosNube', 'sistema'),
+	(307, '2025-09-22 20:19:50', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(308, '2025-09-22 20:20:10', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(309, '2025-09-22 20:25:25', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema'),
+	(310, '2025-09-22 20:26:30', '::1', 'Datos enviados correctamente a la nube.', 'EnvioDatosNube', 'sistema');
 
 -- Volcando estructura para tabla zerion.usuarios
 CREATE TABLE IF NOT EXISTS `usuarios` (

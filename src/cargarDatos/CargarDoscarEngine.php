@@ -161,11 +161,10 @@ class CargarDoscarEngine
             }
         }
     }
-    public function enviarDatosNube($datos): Respuesta
+    public function enviarDatosNube( string $datos, string $url): Respuesta
     {
         $respuesta = new Respuesta();
         try {
-            $url = "http://localhost/ApiDoscarSync/sincronizar.php";
             $apiKey = $this->repositorio->obtenerApiKey();
     
             $ch = curl_init($url);
