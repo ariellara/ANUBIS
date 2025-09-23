@@ -31,16 +31,30 @@ class CargarDoscarEngine
     {
         $respuesta = new Respuesta();
         $datosEstructura = new EstructuraDatosDTO();
+        $fechaControl = $this->repositorio->obtenerFechaControl();
 
         try {
             if ($conn_access = odbc_connect("DATADOSCAR", "", "")) {
 
                 $datosEstructura->articulos = $this->repositorio->obtenerDatosDoscar($conn_access, "Articulos");
                 $datosEstructura->articulosCompuestos = $this->repositorio->obtenerDatosDoscar($conn_access, "[Articulos Compuestos]");
-                $datosEstructura->cabeceraAlbaranesCompra = $this->repositorio->obtenerDatosDoscar($conn_access, "[Cabecera Albaranes de Compra]");
-                $datosEstructura->cabeceraFacturasCompra = $this->repositorio->obtenerDatosDoscar($conn_access, "[Cabecera Facturas de Compra]");
-                $datosEstructura->cabeceraFacturaVenta = $this->repositorio->obtenerDatosDoscar($conn_access, "[Cabecera Facturas de Venta]");
-                $datosEstructura->cabeceraTicketsVenta = $this->repositorio->obtenerDatosDoscar($conn_access, "[Cabecera Tickets de Venta]");
+               
+                $datosEstructura->cabeceraAlbaranesCompra = $this->repositorio->obtenerCabeceraAlbaranes($conn_access, "[Cabecera Albaranes de Compra]", $fechaControl);
+                $idAlbaranesCompra = array_column($datosEstructura->cabeceraAlbaranesCompra, "Numero");
+                $datosEstructura->lineasAlbaranesCompra = $this->repositorio->obtenerLineasAlbaranes($conn_access, "[Lineas Albaranes de Compra]", $idAlbaranesCompra);
+             
+                $datosEstructura->cabeceraFacturasCompra = $this->repositorio->obtenerCabeceraFacturasCompra($conn_access, "[Cabecera Facturas de Compra]", $fechaControl);
+                $idFacturasCompra = array_column($datosEstructura->cabeceraFacturasCompra, "Numero");
+                $datosEstructura->lineasFacturasCompra = $this->repositorio->obtenerLineaFacturasCompra($conn_access, "[Lineas Facturas de Compra]", $idFacturasCompra);
+               
+                $datosEstructura->cabeceraFacturaVenta = $this->repositorio->cabeceraFacturaVenta($conn_access, "[Cabecera Facturas de Venta]",$fechaControl);
+                $idFacturas = array_column($datosEstructura->cabeceraFacturaVenta, "Numero");
+                $datosEstructura->lineasFacturaVenta = $this->repositorio->obtenerLineaFacturasVenta($conn_access, "[Lineas Facturas de Venta]",$idFacturas);
+               
+                $datosEstructura->cabeceraTicketsVenta = $this->repositorio->cabeceraTicketsVenta($conn_access, "[Cabecera Tickets de Venta]", $fechaControl);
+                $idTickets = array_column($datosEstructura->cabeceraTicketsVenta, "Numero");
+                $datosEstructura->lineasTicketsVenta = $this->repositorio->obtenerLineasTiquets($conn_access, "[Lineas Tickets de Venta]", $idTickets);
+                
                 $datosEstructura->cajas = $this->repositorio->obtenerDatosDoscar($conn_access, "Cajas");
                 $datosEstructura->camareros = $this->repositorio->obtenerDatosDoscar($conn_access, "Camareros");
                 $datosEstructura->clientes = $this->repositorio->obtenerDatosDoscar($conn_access, "Clientes");
@@ -48,22 +62,18 @@ class CargarDoscarEngine
                 $datosEstructura->familias = $this->repositorio->obtenerDatosDoscar($conn_access, "Familias");
                 $datosEstructura->formasPago = $this->repositorio->obtenerDatosDoscar($conn_access, "[Formas de Pago]");
                 $datosEstructura->gastos = $this->repositorio->obtenerDatosDoscar($conn_access, "Gastos");
-                $datosEstructura->historicoCierresCaja = $this->repositorio->obtenerDatosDoscar($conn_access, "[Historico Cierres Caja]");
-                $datosEstructura->ingresos = $this->repositorio->obtenerDatosDoscar($conn_access, "Ingresos");
-                $datosEstructura->lineasAlbaranesCompra = $this->repositorio->obtenerDatosDoscar($conn_access, "[Lineas Albaranes de Compra]");
-                $datosEstructura->lineasFacturasCompra = $this->repositorio->obtenerDatosDoscar($conn_access, "[Lineas Facturas de Compra]");
-                $datosEstructura->lineasFacturaVenta = $this->repositorio->obtenerDatosDoscar($conn_access, "[Lineas Facturas de Venta]");
-                $datosEstructura->lineasTicketsVenta = $this->repositorio->obtenerDatosDoscar($conn_access, "[Lineas Tickets de Venta]");
+                $datosEstructura->historicoCierresCaja = $this->repositorio->obtenerHistoricoCierres($conn_access, "[Historico Cierres Caja]", $fechaControl);
+                $datosEstructura->ingresos = $this->repositorio->obtenerDatosDoscar($conn_access, "Ingresos"); 
                 $datosEstructura->logControlModificaciones = $this->repositorio->obtenerDatosDoscar($conn_access, "LogControlModificaciones");
-                $datosEstructura->logOperaciones = $this->repositorio->obtenerDatosDoscar($conn_access, "LogOperaciones");
-                $datosEstructura->logUsuarios = $this->repositorio->obtenerDatosDoscar($conn_access, "Logusuarios");
+                $datosEstructura->logOperaciones = $this->repositorio->obtenerDatosDoscarLogOperaciones($conn_access, "LogOperaciones", $fechaControl);
+                $datosEstructura->logUsuarios = $this->repositorio->obtenerDatosDoscarLogUsuarios($conn_access, "Logusuarios", $fechaControl);
                 $datosEstructura->mesas = $this->repositorio->obtenerDatosDoscar($conn_access, "Mesas");
                 $datosEstructura->motivoSalidas = $this->repositorio->obtenerDatosDoscar($conn_access, "MotivoSalidas");
-                $datosEstructura->pagosACamareros = $this->repositorio->obtenerDatosDoscar($conn_access, "[Pagos a Camareros]");
-                $datosEstructura->pagosAProveedores = $this->repositorio->obtenerDatosDoscar($conn_access, "[Pagos a Proveedores]");
-                $datosEstructura->pagosARepresentantes = $this->repositorio->obtenerDatosDoscar($conn_access, "[Pagos a Representantes]");
+                $datosEstructura->pagosACamareros = $this->repositorio->obtenerDatosCamareros($conn_access, "[Pagos a Camareros]", $fechaControl);
+                $datosEstructura->pagosAProveedores = $this->repositorio->obtenerDatosProveedores($conn_access, "[Pagos a Proveedores]", $fechaControl);
+                $datosEstructura->pagosARepresentantes = $this->repositorio->obtenerDatosRepresentantes($conn_access, "[Pagos a Representantes]", $fechaControl);
                 $datosEstructura->proveedores = $this->repositorio->obtenerDatosDoscar($conn_access, "Proveedores");
-                $datosEstructura->recibosDeClientes = $this->repositorio->obtenerDatosDoscar($conn_access, "[Recibos de Clientes]");
+                $datosEstructura->recibosDeClientes = $this->repositorio->obtenerDatosRecibos($conn_access, "[Recibos de Clientes]", $fechaControl);
                 $datosEstructura->representantes = $this->repositorio->obtenerDatosDoscar($conn_access, "Representantes");
                 $datosEstructura->tiposDeImpuestos = $this->repositorio->obtenerDatosDoscar($conn_access, "[Tipos de Impuestos]");
 
