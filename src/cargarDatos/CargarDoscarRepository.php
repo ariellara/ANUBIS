@@ -266,6 +266,13 @@ class CargarDoscarRepository
         }
         return null;
     }
+    public function actualizarFechaActualizacion()
+    {
+        date_default_timezone_set("America/Bogota");
+        $fecha_actual = date("Y-m-d ");
+        $sql = "UPDATE api_key_local SET fechaCargue = '$fecha_actual' WHERE id = 1";
+        return $this->conexion->query($sql);
+    }
 
 
 

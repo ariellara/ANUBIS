@@ -46,6 +46,7 @@ class CargarDoscarManager
                 $respuesta->setSuccess(true);
                 $respuesta->setMensaje($enviarCloudDoscar->getMensaje());
                 $respuesta->setDatos([]);
+                $this->repositorio->actualizarFechaActualizacion();
             } else {
                 $respuesta->setSuccess(false);
                 $respuesta->setMensaje($enviarCloudDoscar->getMensaje());
