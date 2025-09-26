@@ -61,7 +61,7 @@ class CargarDoscarEngine
                 $datosEstructura->datosEmpresa = $this->repositorio->obtenerDatosDoscar($conn_access, "[Datos Empresa]");
                 $datosEstructura->familias = $this->repositorio->obtenerDatosDoscar($conn_access, "Familias");
                 $datosEstructura->formasPago = $this->repositorio->obtenerDatosDoscar($conn_access, "[Formas de Pago]");
-                $datosEstructura->gastos = $this->repositorio->obtenerDatosDoscar($conn_access, "Gastos");
+                $datosEstructura->gastos = $this->repositorio->obtenerDatosGastos($conn_access, "Gastos", $fechaControl);
                 $datosEstructura->historicoCierresCaja = $this->repositorio->obtenerHistoricoCierres($conn_access, "[Historico Cierres Caja]", $fechaControl);
                 $datosEstructura->ingresos = $this->repositorio->obtenerDatosDoscar($conn_access, "Ingresos"); 
                 $datosEstructura->logControlModificaciones = $this->repositorio->obtenerDatosDoscar($conn_access, "LogControlModificaciones");

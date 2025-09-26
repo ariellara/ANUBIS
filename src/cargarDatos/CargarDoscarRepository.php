@@ -242,6 +242,20 @@ class CargarDoscarRepository
         }
         return !empty($datos) ? $datos : [];
     }
+    public function obtenerDatosGastos($conn_access, $entidad, $fecha_control)
+    {
+        $fecha_control = date("Y-m-d", strtotime($fecha_control));
+        $sql = "SELECT * FROM $entidad WHERE Fecha >= #$fecha_control#";
+
+        $datos = [];
+        $rs_access = odbc_exec($conn_access, $sql);
+
+        while ($fila = odbc_fetch_object($rs_access)) {
+            $datos[] = (array) $fila;
+        }
+        return !empty($datos) ? $datos : [];
+        
+    }
 
 
 
